@@ -1,5 +1,3 @@
 
-# thesis-seq2seq
-Master Thesis in Neural Response Generation at Humboldt University of Berlin / Share Now
-
-<img src="cover.png" alt="thesis">
+# Master Thesis: Neural Response Generation for e-mail conversations
+<img src="misc/cover.jpg" witdh = "888" alt="thesis">
