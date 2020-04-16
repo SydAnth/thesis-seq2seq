@@ -6,6 +6,40 @@
 
 ### [Recurrent Encoder-Decoder Model](https://github.com/SydAnth/thesis-seq2seq/blob/master/Notebooks/RED-Trained.ipynb)
 
+```python
+
+### Attention is a key concept of recurrent encoder-decoder models
+
+class DotAttention(tf.keras.layers.Layer):
+  def __init__(self):
+    super(DotAttention, self).__init__()
+
+  def call(self, query, keys , values):
+    #query: hidden_state
+    #keys: encoder_output
+    #values: encoder_output
+
+    # hidden shape == (batch_size, hidden size)
+    # hidden_with_time_axis shape == (batch_size, 1, hidden size)
+    # we are doing this to perform addition to calculate the score
+    query_with_time_axis = tf.expand_dims(query, 1)
+
+    # score shape == (batch_size, max_length, 1)
+    # we get 1 at the last axis because we are applying score to self.V
+    # the shape of the tensor before applying self.V is (batch_size, max_length, units)
+    score = tf.matmul(query_with_time_axis, keys, transpose_b=True)
+
+    score = tf.transpose(score,perm=[0,2,1])
+    # attention_weights shape == (batch_size, max_length, 1)
+    attention_weights = tf.nn.softmax(score, axis=1)
+
+    # context_vector shape after sum == (batch_size, hidden_size)
+    context_vector = attention_weights * values
+    context_vector = tf.reduce_sum(context_vector, axis=1)
+
+    return context_vector, attention_weights
+
+```
 
 This notebook contains the complete set up of the RED model used in the thesis. All results related to the RED model have been developed with this workbook.
 This workbook can be used for both the English as well as the German data set.
@@ -14,6 +48,37 @@ the dataframe "data" have to be replaced with "dataDE".
 
 ### [Transformer Model](https://github.com/SydAnth/thesis-seq2seq/blob/master/Notebooks/Transformer-Trained.ipynb)
 
+```python
+
+### The Transformer build upon the RED framework but does away with recurrent network structures.
+
+class Transformer(tf.keras.Model):
+  def __init__(self, enc_num_layers,dec_num_layers, d_model, num_heads, dff, input_vocab_size, 
+               target_vocab_size, pe_input, pe_target, rate=0.1):
+    super(Transformer, self).__init__()
+
+    self.encoder = Encoder(enc_num_layers, d_model, num_heads, dff, 
+                           input_vocab_size, pe_input, rate)
+
+    self.decoder = Decoder(dec_num_layers, d_model, num_heads, dff, 
+                           target_vocab_size, pe_target, rate)
+
+    self.final_layer = tf.keras.layers.Dense(target_vocab_size)
+    
+  def call(self, inp, tar, training, enc_padding_mask, 
+           look_ahead_mask, dec_padding_mask):
+
+    enc_output = self.encoder(inp, training, enc_padding_mask)  # (batch_size, inp_seq_len, d_model)
+    
+    # dec_output.shape == (batch_size, tar_seq_len, d_model)
+    dec_output, attention_weights = self.decoder(
+        tar, enc_output, training, look_ahead_mask, dec_padding_mask)
+    
+    final_output = self.final_layer(dec_output)  # (batch_size, tar_seq_len, target_vocab_size)
+    
+    return final_output, attention_weights
+
+```
 
 This notebook contains the complete set up of the Transformer model used in the thesis. 
 All results related to the Transformer model have been developed with this workbook. 
