@@ -15,7 +15,6 @@ the dataframe "data" have to be replaced with "dataDE".
 
 ### [Transformer Model](https://github.com/SydAnth/thesis-seq2seq/blob/master/Notebooks/Transformer%20-%20Complete%20Set%20Up.ipynb)
 
-<img src="Notebooks/figures/Transformer.png" witdh = "222" alt="Transformer">
 
 This notebook contains the complete set up of the Transformer model used in the thesis. 
 All results related to the Transformer model have been developed with this workbook. 
