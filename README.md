@@ -50,7 +50,7 @@ the dataframe "data" have to be replaced with "dataDE".
 
 ```python
 
-### The Transformer build upon the RED framework but does away with recurrent network structures.
+### The Transformer builds upon the RED framework but does away with recurrent network structures.
 
 class Transformer(tf.keras.Model):
   def __init__(self, enc_num_layers,dec_num_layers, d_model, num_heads, dff, input_vocab_size, 
