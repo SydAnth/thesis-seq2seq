@@ -23,7 +23,7 @@ Furthermore, both greedy search and beam search have been implemented as decodin
 
 # Outline Results
 
-<img src="misc/table3.png" witdh = "888" alt="Table 3">
+<img src="misc/table3.PNG" witdh = "888" alt="Table 3">
 
 The overall performance of the neural response frameworks compared to an industry standard baseline can be take from table 3.
 All three indices are measured on a scale from 0 to 100 and a higher value aligns with a higher quality response in the sense that it aligns more 
@@ -35,7 +35,7 @@ languages indicates that this approach evaluates their actual value for natural 
 
 
 
-<img src="misc/table5.png" witdh = "888" alt="Table 5">
+<img src="misc/table5.PNG" witdh = "888" alt="Table 5">
 
 In order to validate the previous results actual customer service agents were asked to evaluate the model output for two criteria. 
 First, they were asked whether the produced output was sensible in a manner that the output produced was grammatically correct, 
